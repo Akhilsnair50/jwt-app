@@ -44,7 +44,7 @@ public class WebSecurityConfig {
         http.cors(Customizer.withDefaults());
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(authorize->authorize
-                .requestMatchers("/authenticate","/registerNewUser").permitAll()
+                .requestMatchers("/authenticate","/registerNewUser","/check-username/**").permitAll()
                 .requestMatchers(HttpHeaders.ALLOW).permitAll()
                 .anyRequest().authenticated());
         http.exceptionHandling(ex->ex.authenticationEntryPoint(jwtAuthenticationEntryPoint));

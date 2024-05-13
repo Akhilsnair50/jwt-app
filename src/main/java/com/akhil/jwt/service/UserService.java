@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -21,6 +22,7 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     public User registerNew(User user){
+
         Role role = roleDao.findById("User").get();
 
         Set<Role> roles = new HashSet<>();
@@ -61,10 +63,48 @@ public class UserService {
 //        user.setRole(userRoles);
 //        userDao.save(user);
 
+
     }
 
     public String getEncodedPassword(String password){
         return passwordEncoder.encode(password);
     }
 
+
+
+    public boolean isUserNameAvailable(String userName) {
+        return !userDao.existsByUserName(userName);
+    }
+
+    public Optional<User> findByUserName(String userName){
+        return userDao.findById(userName);
+    }
+
+    public void setUserImage(String imageName,String userName){
+       Optional<User> user = userDao.findById(userName);
+       if(user.isPresent()){
+           User user1  = user.get();
+           user1.setImage(imageName);
+           userDao.save(user1);
+       }else {
+           System.out.println("oops!!");
+       }
+    }
+
+    public String getUserImage(String userName){
+        Optional<User> user = userDao.findById(userName);
+        return user.get().getImagePath();
+    }
+    public User save(User user){
+        return userDao.save(user);
+    }
+
+    public void deleteUser(String userName){
+        User user = userDao.findById(userName).orElse(null);
+        if (user!=null){
+            user.setRole(null);
+            userDao.deleteById(userName);
+        }
+
+    }
 }

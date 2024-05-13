@@ -26,7 +26,8 @@ public class CorsConfiguration {
                                 HttpMethod.POST.name(),
                                 HttpMethod.DELETE.name())
                         .allowedHeaders(HttpHeaders.CONTENT_TYPE,
-                                HttpHeaders.AUTHORIZATION);
+                                HttpHeaders.AUTHORIZATION,
+                                "no-auth");
             }};
     }
 //    @Bean

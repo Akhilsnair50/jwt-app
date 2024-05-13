@@ -12,6 +12,8 @@ public class User {
     private String userLastName;
     private String userPassword;
 
+    private String image;
+
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinTable(
             name = "USER_ROLE",
@@ -56,11 +58,24 @@ public class User {
         this.userPassword = userPassword;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public Set<Role> getRole() {
         return role;
     }
 
     public void setRole(Set<Role> role) {
         this.role = role;
+    }
+
+    @Transient
+    public String getImagePath(){
+        return "../../../../../images/"+this.image;
     }
 }
